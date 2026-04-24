@@ -1,18 +1,56 @@
-# FinanceTracker
+﻿# Personal Finance Tracker CLI
 
 ## Overview
 
-The **Personal Finance Tracker** is a Python application designed to help users manage their finances effectively. This command-line tool allows users to track their income and expenses, providing insights into their financial health through summary reports and visualizations.
+Personal Finance Tracker CLI is a Python-based command-line application for recording income and expenses, reviewing transaction history, generating summary totals, and visualizing financial activity.
 
-## Features
+This project is positioned as a recruiter-ready Python portfolio piece focused on CLI workflow design, CSV data persistence, lightweight reporting, and simple chart-based visualization.
 
-- **Add Transactions**: Easily log income and expenses with descriptions and dates.
-- **View Summary**: Get a quick overview of total income, total expenses, and net savings.
-- **Data Visualization**: Visualize income versus expenses using bar charts for better financial insights.
-- **Data Persistence**: Transactions are stored in a CSV file, allowing for persistent data tracking.
+## Real-World Business Use Case
 
-## Technologies Used
+This project maps to practical workflows relevant to:
 
-- **Python**: Core programming language for the application.
-- **Pandas**: Library for data manipulation and analysis.
-- **Matplotlib**: Library for creating static, animated, and interactive visualizations in Python.
+- Personal Finance Utilities
+- Internal Budget Tracking Tools
+- Small Business Expense Logging
+- Python CLI Development
+- Data Reporting Demonstrations
+
+A user or small team may need to answer questions such as:
+
+- How much total income has been recorded?
+- How much has been spent?
+- What is the current net savings value?
+- How can income and expenses be visualized quickly?
+
+This kind of application is useful for lightweight budgeting, reporting demos, and command-line portfolio presentation.
+
+## Key Features
+
+- Add Income And Expense Transactions
+- CSV-Based Data Persistence
+- Financial Summary Output
+- Transaction History View
+- Income Vs Expenses Bar Chart
+- Input Validation Improvements
+
+## Tech Stack
+
+- Python
+- Pandas
+- Matplotlib
+
+## Repository Contents
+
+- `Finance.py`
+- `requirements.txt`
+- `README.md`
+- `.gitignore`
+
+## How To Run
+
+### 1. Create And Activate A Virtual Environment
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
