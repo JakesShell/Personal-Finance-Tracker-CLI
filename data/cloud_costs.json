@@ -1,0 +1,57 @@
+﻿[
+  {
+    "service": "compute",
+    "resource": "web-server-01",
+    "business_area": "customer-portal",
+    "monthly_budget": 120,
+    "current_spend": 98,
+    "previous_month_spend": 85,
+    "owner": "support-team",
+    "criticality": "high",
+    "utilization_percent": 68
+  },
+  {
+    "service": "database",
+    "resource": "orders-db",
+    "business_area": "checkout-payments",
+    "monthly_budget": 200,
+    "current_spend": 265,
+    "previous_month_spend": 180,
+    "owner": "backend-team",
+    "criticality": "critical",
+    "utilization_percent": 91
+  },
+  {
+    "service": "storage",
+    "resource": "media-bucket",
+    "business_area": "customer-media",
+    "monthly_budget": 80,
+    "current_spend": 145,
+    "previous_month_spend": 70,
+    "owner": "",
+    "criticality": "medium",
+    "utilization_percent": 8
+  },
+  {
+    "service": "monitoring",
+    "resource": "logs-platform",
+    "business_area": "observability",
+    "monthly_budget": 60,
+    "current_spend": 55,
+    "previous_month_spend": 52,
+    "owner": "operations-team",
+    "criticality": "medium",
+    "utilization_percent": 34
+  },
+  {
+    "service": "gpu",
+    "resource": "batch-training-node",
+    "business_area": "analytics-lab",
+    "monthly_budget": 150,
+    "current_spend": 188,
+    "previous_month_spend": 40,
+    "owner": "",
+    "criticality": "high",
+    "utilization_percent": 6
+  }
+]

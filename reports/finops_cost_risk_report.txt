@@ -1,0 +1,141 @@
+Cloud FinOps Anomaly Detection And Cost Risk Report
+====================================================================
+Executive Risk Summary
+--------------------------------------------------------------------
+Environment: PROD
+Source: JSON
+Forecast Day: 12
+Generated At: 2026-05-05T11:49:07
+Total Monthly Budget: $610.00
+Total Current Spend: $751.00
+Projected Month-End Spend: $1877.50
+Projected Month-End Overrun: $1267.50
+Projected Overrun Percent: 207.79%
+High-Risk Resources: 3
+Medium-Risk Resources: 1
+Unowned Current Spend: $333.00
+Waste Candidates: 2
+Immediate Action Required: YES
+
+Service: database
+Resource: orders-db
+Affected Area: checkout-payments
+Business Impact: CRITICAL
+Owner: backend-team
+Monthly Budget: $200.00
+Current Spend: $265.00
+Projected Month-End Spend: $662.50
+Projected Overrun: $462.50
+Previous Month Spend: $180.00
+Spend Change: 47.22%
+Utilization: 91%
+Risk Score: 18
+Risk Level: HIGH
+Findings:
+- Current spend exceeds monthly budget
+- Projected month-end spend exceeds monthly budget
+- Cost spike detected compared to previous month
+Recommended Action Plan:
+1. Open a cost review and compare spend against approved budget.
+2. Create or tighten budget alert thresholds before month end.
+3. Investigate workload, query, traffic, or retention changes causing the spike.
+4. Review database query load, backup retention, storage growth, and scaling configuration.
+5. Escalate to engineering, operations, and finance for same-day remediation.
+--------------------------------------------------------------------
+Service: gpu
+Resource: batch-training-node
+Affected Area: analytics-lab
+Business Impact: HIGH
+Owner: UNASSIGNED
+Monthly Budget: $150.00
+Current Spend: $188.00
+Projected Month-End Spend: $470.00
+Projected Overrun: $320.00
+Previous Month Spend: $40.00
+Spend Change: 370.0%
+Utilization: 6%
+Risk Score: 22
+Risk Level: HIGH
+Findings:
+- Current spend exceeds monthly budget
+- Projected month-end spend exceeds monthly budget
+- Cost spike detected compared to previous month
+- Missing resource owner
+- Low utilization suggests possible waste
+Recommended Action Plan:
+1. Assign a responsible owner for the resource.
+2. Open a cost review and compare spend against approved budget.
+3. Create or tighten budget alert thresholds before month end.
+4. Investigate workload, query, traffic, or retention changes causing the spike.
+5. Right-size, pause, archive, or downgrade the resource if business impact allows.
+6. Review instance size, scheduling windows, autoscaling rules, and idle runtime.
+7. Escalate to engineering, operations, and finance for same-day remediation.
+--------------------------------------------------------------------
+Service: storage
+Resource: media-bucket
+Affected Area: customer-media
+Business Impact: MEDIUM
+Owner: UNASSIGNED
+Monthly Budget: $80.00
+Current Spend: $145.00
+Projected Month-End Spend: $362.50
+Projected Overrun: $282.50
+Previous Month Spend: $70.00
+Spend Change: 107.14%
+Utilization: 8%
+Risk Score: 21
+Risk Level: HIGH
+Findings:
+- Current spend exceeds monthly budget
+- Projected month-end spend exceeds monthly budget
+- Cost spike detected compared to previous month
+- Missing resource owner
+- Low utilization suggests possible waste
+Recommended Action Plan:
+1. Assign a responsible owner for the resource.
+2. Open a cost review and compare spend against approved budget.
+3. Create or tighten budget alert thresholds before month end.
+4. Investigate workload, query, traffic, or retention changes causing the spike.
+5. Right-size, pause, archive, or downgrade the resource if business impact allows.
+6. Review lifecycle policies, storage tiering, duplicate files, and stale objects.
+7. Escalate to engineering, operations, and finance for same-day remediation.
+--------------------------------------------------------------------
+Service: compute
+Resource: web-server-01
+Affected Area: customer-portal
+Business Impact: HIGH
+Owner: support-team
+Monthly Budget: $120.00
+Current Spend: $98.00
+Projected Month-End Spend: $245.00
+Projected Overrun: $125.00
+Previous Month Spend: $85.00
+Spend Change: 15.29%
+Utilization: 68%
+Risk Score: 7
+Risk Level: MEDIUM
+Findings:
+- Projected month-end spend exceeds monthly budget
+Recommended Action Plan:
+1. Create or tighten budget alert thresholds before month end.
+2. Review instance size, scheduling windows, autoscaling rules, and idle runtime.
+--------------------------------------------------------------------
+Service: monitoring
+Resource: logs-platform
+Affected Area: observability
+Business Impact: MEDIUM
+Owner: operations-team
+Monthly Budget: $60.00
+Current Spend: $55.00
+Projected Month-End Spend: $137.50
+Projected Overrun: $77.50
+Previous Month Spend: $52.00
+Spend Change: 5.77%
+Utilization: 34%
+Risk Score: 6
+Risk Level: LOW
+Findings:
+- Projected month-end spend exceeds monthly budget
+Recommended Action Plan:
+1. Create or tighten budget alert thresholds before month end.
+--------------------------------------------------------------------

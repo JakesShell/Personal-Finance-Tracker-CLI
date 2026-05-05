@@ -1,2 +1,2 @@
-pandas
-matplotlib
+﻿# No external Python packages required.
+# This project uses only Python standard library modules.

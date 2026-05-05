@@ -1,0 +1,163 @@
+{
+  "generated_at": "2026-05-05T11:49:07",
+  "executive_summary": {
+    "environment": "PROD",
+    "source": "JSON",
+    "forecast_day": 12,
+    "generated_at": "2026-05-05T11:49:07",
+    "total_monthly_budget": 610,
+    "total_current_spend": 751,
+    "projected_month_end_spend": 1877.5,
+    "projected_month_end_overrun": 1267.5,
+    "projected_overrun_percent": 207.79,
+    "high_risk_resources": 3,
+    "medium_risk_resources": 1,
+    "unowned_current_spend": 333,
+    "waste_candidates": 2,
+    "immediate_action_required": "YES"
+  },
+  "results": [
+    {
+      "service": "database",
+      "resource": "orders-db",
+      "business_area": "checkout-payments",
+      "owner": "backend-team",
+      "criticality": "critical",
+      "blast_radius": "CRITICAL",
+      "monthly_budget": 200,
+      "current_spend": 265,
+      "previous_month_spend": 180,
+      "projected_month_end_spend": 662.5,
+      "projected_overrun": 462.5,
+      "spike_percent": 47.22,
+      "utilization_percent": 91,
+      "findings": [
+        "Current spend exceeds monthly budget",
+        "Projected month-end spend exceeds monthly budget",
+        "Cost spike detected compared to previous month"
+      ],
+      "risk_score": 18,
+      "risk_level": "HIGH",
+      "action_plan": [
+        "Open a cost review and compare spend against approved budget.",
+        "Create or tighten budget alert thresholds before month end.",
+        "Investigate workload, query, traffic, or retention changes causing the spike.",
+        "Review database query load, backup retention, storage growth, and scaling configuration.",
+        "Escalate to engineering, operations, and finance for same-day remediation."
+      ]
+    },
+    {
+      "service": "gpu",
+      "resource": "batch-training-node",
+      "business_area": "analytics-lab",
+      "owner": "UNASSIGNED",
+      "criticality": "high",
+      "blast_radius": "HIGH",
+      "monthly_budget": 150,
+      "current_spend": 188,
+      "previous_month_spend": 40,
+      "projected_month_end_spend": 470.0,
+      "projected_overrun": 320.0,
+      "spike_percent": 370.0,
+      "utilization_percent": 6,
+      "findings": [
+        "Current spend exceeds monthly budget",
+        "Projected month-end spend exceeds monthly budget",
+        "Cost spike detected compared to previous month",
+        "Missing resource owner",
+        "Low utilization suggests possible waste"
+      ],
+      "risk_score": 22,
+      "risk_level": "HIGH",
+      "action_plan": [
+        "Assign a responsible owner for the resource.",
+        "Open a cost review and compare spend against approved budget.",
+        "Create or tighten budget alert thresholds before month end.",
+        "Investigate workload, query, traffic, or retention changes causing the spike.",
+        "Right-size, pause, archive, or downgrade the resource if business impact allows.",
+        "Review instance size, scheduling windows, autoscaling rules, and idle runtime.",
+        "Escalate to engineering, operations, and finance for same-day remediation."
+      ]
+    },
+    {
+      "service": "storage",
+      "resource": "media-bucket",
+      "business_area": "customer-media",
+      "owner": "UNASSIGNED",
+      "criticality": "medium",
+      "blast_radius": "MEDIUM",
+      "monthly_budget": 80,
+      "current_spend": 145,
+      "previous_month_spend": 70,
+      "projected_month_end_spend": 362.5,
+      "projected_overrun": 282.5,
+      "spike_percent": 107.14,
+      "utilization_percent": 8,
+      "findings": [
+        "Current spend exceeds monthly budget",
+        "Projected month-end spend exceeds monthly budget",
+        "Cost spike detected compared to previous month",
+        "Missing resource owner",
+        "Low utilization suggests possible waste"
+      ],
+      "risk_score": 21,
+      "risk_level": "HIGH",
+      "action_plan": [
+        "Assign a responsible owner for the resource.",
+        "Open a cost review and compare spend against approved budget.",
+        "Create or tighten budget alert thresholds before month end.",
+        "Investigate workload, query, traffic, or retention changes causing the spike.",
+        "Right-size, pause, archive, or downgrade the resource if business impact allows.",
+        "Review lifecycle policies, storage tiering, duplicate files, and stale objects.",
+        "Escalate to engineering, operations, and finance for same-day remediation."
+      ]
+    },
+    {
+      "service": "compute",
+      "resource": "web-server-01",
+      "business_area": "customer-portal",
+      "owner": "support-team",
+      "criticality": "high",
+      "blast_radius": "HIGH",
+      "monthly_budget": 120,
+      "current_spend": 98,
+      "previous_month_spend": 85,
+      "projected_month_end_spend": 245.0,
+      "projected_overrun": 125.0,
+      "spike_percent": 15.29,
+      "utilization_percent": 68,
+      "findings": [
+        "Projected month-end spend exceeds monthly budget"
+      ],
+      "risk_score": 7,
+      "risk_level": "MEDIUM",
+      "action_plan": [
+        "Create or tighten budget alert thresholds before month end.",
+        "Review instance size, scheduling windows, autoscaling rules, and idle runtime."
+      ]
+    },
+    {
+      "service": "monitoring",
+      "resource": "logs-platform",
+      "business_area": "observability",
+      "owner": "operations-team",
+      "criticality": "medium",
+      "blast_radius": "MEDIUM",
+      "monthly_budget": 60,
+      "current_spend": 55,
+      "previous_month_spend": 52,
+      "projected_month_end_spend": 137.5,
+      "projected_overrun": 77.5,
+      "spike_percent": 5.77,
+      "utilization_percent": 34,
+      "findings": [
+        "Projected month-end spend exceeds monthly budget"
+      ],
+      "risk_score": 6,
+      "risk_level": "LOW",
+      "action_plan": [
+        "Create or tighten budget alert thresholds before month end."
+      ]
+    }
+  ]
+}

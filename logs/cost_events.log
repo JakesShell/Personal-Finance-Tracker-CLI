@@ -1,0 +1,5 @@
+2026-05-05T11:49:07 | PROD | REVIEW | web-server-01 | Cost risk requires follow-up review
+2026-05-05T11:49:07 | PROD | ALERT | orders-db | High-risk FinOps anomaly detected
+2026-05-05T11:49:07 | PROD | ALERT | media-bucket | High-risk FinOps anomaly detected
+2026-05-05T11:49:07 | PROD | AUDIT | logs-platform | Resource passed FinOps cost checks
+2026-05-05T11:49:07 | PROD | ALERT | batch-training-node | High-risk FinOps anomaly detected

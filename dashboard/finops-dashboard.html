@@ -1,0 +1,900 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud FinOps Cost Risk Dashboard</title>
+  <style>
+    :root {
+      --ink: #182118;
+      --muted: #6f6a5d;
+      --paper: #f7f1e4;
+      --cream: #fffaf0;
+      --green: #13281d;
+      --green-soft: #20372b;
+      --gold: #b08a3c;
+      --gold-soft: #d8c28a;
+      --oxblood: #6d1f1b;
+      --line: rgba(39, 49, 37, 0.18);
+      --shadow: 0 24px 70px rgba(20, 25, 18, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(176, 138, 60, 0.18), transparent 28%),
+        linear-gradient(135deg, #efe4cf 0%, #f7f1e4 42%, #e7dcc8 100%);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 42px));
+      margin: 0 auto;
+      padding: 44px 0 60px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      color: var(--green);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a:hover {
+      border-bottom-color: var(--gold);
+    }
+
+    .seal {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-family: Georgia, serif;
+      letter-spacing: 0;
+      font-size: 1.1rem;
+      background: rgba(255, 250, 240, 0.65);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 36px;
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, rgba(255, 250, 240, 0.94), rgba(242, 231, 209, 0.92)),
+        repeating-linear-gradient(90deg, rgba(19, 40, 29, 0.03) 0, rgba(19, 40, 29, 0.03) 1px, transparent 1px, transparent 14px);
+      border: 1px solid rgba(176, 138, 60, 0.34);
+      box-shadow: var(--shadow);
+    }
+
+    .hero:before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(176, 138, 60, 0.24);
+      border-radius: 22px;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 34px;
+      align-items: end;
+      z-index: 1;
+    }
+
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 780px;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--green);
+      font-size: clamp(2.5rem, 5vw, 5.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+    }
+
+    .hero-copy {
+      margin: 22px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    .executive-panel {
+      border-radius: 24px;
+      padding: 24px;
+      background: var(--green);
+      color: var(--cream);
+      border: 1px solid rgba(216, 194, 138, 0.42);
+      box-shadow: inset 0 0 0 1px rgba(255, 250, 240, 0.06);
+    }
+
+    .executive-panel span {
+      display: block;
+      color: var(--gold-soft);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .executive-panel strong {
+      display: block;
+      font-family: Georgia, serif;
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .executive-panel p {
+      margin: 14px 0 0;
+      color: #e7dcc8;
+      line-height: 1.55;
+    }
+
+    .report-meta {
+      margin-top: 18px;
+      font-size: 0.76rem;
+      color: var(--gold-soft);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .metric-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255, 250, 240, 0.72);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 32px rgba(20, 25, 18, 0.08);
+    }
+
+    .metric-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-family: Georgia, serif;
+      color: var(--green);
+      font-size: 2rem;
+      line-height: 1.05;
+    }
+
+    .metric-card small {
+      display: block;
+      color: var(--gold);
+      margin-top: 8px;
+      font-weight: 700;
+    }
+
+    .warning-strip {
+      margin: 24px 0;
+      padding: 18px 22px;
+      border-radius: 20px;
+      background: rgba(109, 31, 27, 0.95);
+      color: var(--cream);
+      border: 1px solid rgba(216, 194, 138, 0.5);
+      box-shadow: 0 16px 36px rgba(109, 31, 27, 0.18);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      line-height: 1.5;
+    }
+
+    .warning-strip strong {
+      color: var(--gold-soft);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .priority-panel {
+      margin: 24px 0 34px;
+      padding: 26px;
+      border-radius: 26px;
+      background: rgba(255, 250, 240, 0.78);
+      border: 1px solid rgba(176, 138, 60, 0.36);
+      box-shadow: 0 18px 42px rgba(20, 25, 18, 0.12);
+    }
+
+    .priority-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .priority-header h2 {
+      margin: 0;
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-size: 1.75rem;
+    }
+
+    .priority-header span {
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+
+    th {
+      text-align: left;
+      color: var(--green);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    td {
+      padding: 14px 12px;
+      color: #39382f;
+      border-bottom: 1px solid rgba(39, 49, 37, 0.1);
+      vertical-align: top;
+    }
+
+    .section-title {
+      margin: 42px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-size: 1.65rem;
+    }
+
+    .section-title:after {
+      content: "";
+      height: 1px;
+      background: var(--line);
+      flex: 1;
+    }
+
+    .resource-card {
+      margin-top: 18px;
+      padding: 26px;
+      border-radius: 26px;
+      background: rgba(255, 250, 240, 0.82);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 42px rgba(20, 25, 18, 0.11);
+    }
+
+    .risk-high {
+      border-left: 7px solid var(--oxblood);
+    }
+
+    .risk-medium {
+      border-left: 7px solid var(--gold);
+    }
+
+    .risk-low {
+      border-left: 7px solid var(--green-soft);
+    }
+
+    .resource-topline {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+    }
+
+    .resource-topline h2 {
+      margin: 0;
+      font-family: Georgia, serif;
+      color: var(--green);
+      font-size: 1.65rem;
+    }
+
+    .risk-badge {
+      padding: 9px 14px;
+      border-radius: 999px;
+      color: var(--cream);
+      border: 1px solid rgba(176, 138, 60, 0.45);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .badge-high {
+      background: var(--oxblood);
+    }
+
+    .badge-medium {
+      background: var(--gold);
+      color: var(--ink);
+    }
+
+    .badge-low {
+      background: var(--green);
+    }
+
+    .resource-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .resource-metrics div {
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(239, 228, 207, 0.54);
+      border: 1px solid rgba(39, 49, 37, 0.12);
+    }
+
+    .resource-metrics span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .resource-metrics strong {
+      color: var(--green);
+      font-family: Georgia, serif;
+      font-size: 1.2rem;
+    }
+
+    .bar-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(239, 228, 207, 0.36);
+      border: 1px solid rgba(39, 49, 37, 0.1);
+    }
+
+    .bar-row + .bar-row {
+      margin-top: 16px;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    .bar-label strong {
+      color: var(--green);
+      font-family: Georgia, serif;
+      letter-spacing: 0;
+    }
+
+    .bar-track {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(19, 40, 29, 0.12);
+      border: 1px solid rgba(19, 40, 29, 0.1);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .bar-fill.current {
+      background: linear-gradient(90deg, var(--green-soft), var(--gold));
+    }
+
+    .bar-fill.projected {
+      background: linear-gradient(90deg, var(--gold), var(--oxblood));
+    }
+
+    .resource-detail {
+      display: grid;
+      grid-template-columns: 0.9fr 1.3fr;
+      gap: 22px;
+      margin-top: 20px;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-family: Georgia, serif;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: #39382f;
+      line-height: 1.45;
+    }
+
+    .footer-note {
+      margin: 38px auto 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .metric-grid,
+      .resource-metrics,
+      .resource-detail {
+        grid-template-columns: 1fr;
+      }
+
+      .resource-topline,
+      .priority-header,
+      .warning-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav {
+        gap: 14px;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav">
+      <div>FinOps Risk Office</div>
+      <div class="seal">F</div>
+      <div class="nav-links">
+        <a href="#summary">Executive Summary</a>
+        <a href="#risk-queue">Risk Queue</a>
+        <a href="#resources">Resources</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="summary">
+      <div class="hero-grid">
+        <div>
+          <p class="kicker">Cloud Financial Incident Prevention</p>
+          <h1>Cost Risk, Forecasting, And Budget Control.</h1>
+          <p class="hero-copy">
+            A polished FinOps dashboard for identifying projected overspend, high-risk resources,
+            unowned spend, low-utilization waste, business impact, and immediate remediation priorities.
+          </p>
+        </div>
+
+        <aside class="executive-panel">
+          <span>Immediate Action Required</span>
+          <strong>YES</strong>
+          <p>Projected month-end overrun: <strong style="font-size:1.35rem; display:inline;">$1267.50</strong></p>
+          <div class="report-meta">Generated 2026-05-05T11:49:07 · PROD · Source JSON · Forecast Day 12</div>
+        </aside>
+      </div>
+
+      <div class="metric-grid">
+        
+    <article class="metric-card">
+      <span>Projected Month-End Spend</span>
+      <strong>$1877.50</strong>
+      <small>Forecast exposure</small>
+    </article>
+    
+    <article class="metric-card">
+      <span>Projected Overrun</span>
+      <strong>$1267.50</strong>
+      <small>Budget risk</small>
+    </article>
+    
+    <article class="metric-card">
+      <span>High-Risk Resources</span>
+      <strong>3</strong>
+      <small>Immediate review</small>
+    </article>
+    
+    <article class="metric-card">
+      <span>Unowned Spend</span>
+      <strong>$333.00</strong>
+      <small>Ownership gap</small>
+    </article>
+    
+    <article class="metric-card">
+      <span>Waste Candidates</span>
+      <strong>2</strong>
+      <small>Low utilization</small>
+    </article>
+    
+    <article class="metric-card">
+      <span>Current Spend</span>
+      <strong>$751.00</strong>
+      <small>Spend to date</small>
+    </article>
+    
+      </div>
+    </section>
+
+    
+    <section class="warning-strip">
+      <strong>Executive Warning:</strong>
+      <span>Projected spend exceeds approved monthly budget by 207.79%. Immediate FinOps review is recommended.</span>
+    </section>
+    
+
+    
+    <section class="priority-panel" id="risk-queue">
+      <div class="priority-header">
+        <div>
+          <p class="kicker">Priority Queue</p>
+          <h2>What the team should fix first</h2>
+        </div>
+        <span>4 active review items</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Resource</th>
+              <th>Risk</th>
+              <th>Primary Issue</th>
+              <th>First Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td>1</td>
+              <td>orders-db</td>
+              <td>HIGH</td>
+              <td>Current spend exceeds monthly budget</td>
+              <td>Open a cost review and compare spend against approved budget.</td>
+            </tr>
+            
+            <tr>
+              <td>2</td>
+              <td>batch-training-node</td>
+              <td>HIGH</td>
+              <td>Current spend exceeds monthly budget</td>
+              <td>Assign a responsible owner for the resource.</td>
+            </tr>
+            
+            <tr>
+              <td>3</td>
+              <td>media-bucket</td>
+              <td>HIGH</td>
+              <td>Current spend exceeds monthly budget</td>
+              <td>Assign a responsible owner for the resource.</td>
+            </tr>
+            
+            <tr>
+              <td>4</td>
+              <td>web-server-01</td>
+              <td>MEDIUM</td>
+              <td>Projected month-end spend exceeds monthly budget</td>
+              <td>Create or tighten budget alert thresholds before month end.</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </section>
+    
+
+    <h2 class="section-title">Resource Risk Review</h2>
+
+    
+            <section class="resource-card risk-high" id="resources">
+              <div class="resource-topline">
+                <div>
+                  <p class="kicker">database / checkout-payments</p>
+                  <h2>orders-db</h2>
+                </div>
+                <div class="risk-badge badge-high">HIGH</div>
+              </div>
+
+              <div class="resource-metrics">
+                <div><span>Business Impact</span><strong>CRITICAL</strong></div>
+                <div><span>Owner</span><strong>backend-team</strong></div>
+                <div><span>Current Spend</span><strong>$265.00</strong></div>
+                <div><span>Projected Spend</span><strong>$662.50</strong></div>
+                <div><span>Projected Overrun</span><strong>$462.50</strong></div>
+                <div><span>Utilization</span><strong>91%</strong></div>
+              </div>
+
+              <div class="bar-panel">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Current Spend Vs Budget</span>
+                    <strong>$265.00 / $200.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill current" style="width:100%"></div></div>
+                </div>
+
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Projected Spend Vs Budget</span>
+                    <strong>$662.50 / $200.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill projected" style="width:100%"></div></div>
+                </div>
+              </div>
+
+              <div class="resource-detail">
+                <div>
+                  <h3>Findings</h3>
+                  <ul><li>Current spend exceeds monthly budget</li><li>Projected month-end spend exceeds monthly budget</li><li>Cost spike detected compared to previous month</li></ul>
+                </div>
+                <div>
+                  <h3>Action Plan</h3>
+                  <ol><li>Open a cost review and compare spend against approved budget.</li><li>Create or tighten budget alert thresholds before month end.</li><li>Investigate workload, query, traffic, or retention changes causing the spike.</li><li>Review database query load, backup retention, storage growth, and scaling configuration.</li><li>Escalate to engineering, operations, and finance for same-day remediation.</li></ol>
+                </div>
+              </div>
+            </section>
+            
+            <section class="resource-card risk-high" id="resources">
+              <div class="resource-topline">
+                <div>
+                  <p class="kicker">gpu / analytics-lab</p>
+                  <h2>batch-training-node</h2>
+                </div>
+                <div class="risk-badge badge-high">HIGH</div>
+              </div>
+
+              <div class="resource-metrics">
+                <div><span>Business Impact</span><strong>HIGH</strong></div>
+                <div><span>Owner</span><strong>UNASSIGNED</strong></div>
+                <div><span>Current Spend</span><strong>$188.00</strong></div>
+                <div><span>Projected Spend</span><strong>$470.00</strong></div>
+                <div><span>Projected Overrun</span><strong>$320.00</strong></div>
+                <div><span>Utilization</span><strong>6%</strong></div>
+              </div>
+
+              <div class="bar-panel">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Current Spend Vs Budget</span>
+                    <strong>$188.00 / $150.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill current" style="width:100%"></div></div>
+                </div>
+
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Projected Spend Vs Budget</span>
+                    <strong>$470.00 / $150.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill projected" style="width:100%"></div></div>
+                </div>
+              </div>
+
+              <div class="resource-detail">
+                <div>
+                  <h3>Findings</h3>
+                  <ul><li>Current spend exceeds monthly budget</li><li>Projected month-end spend exceeds monthly budget</li><li>Cost spike detected compared to previous month</li><li>Missing resource owner</li><li>Low utilization suggests possible waste</li></ul>
+                </div>
+                <div>
+                  <h3>Action Plan</h3>
+                  <ol><li>Assign a responsible owner for the resource.</li><li>Open a cost review and compare spend against approved budget.</li><li>Create or tighten budget alert thresholds before month end.</li><li>Investigate workload, query, traffic, or retention changes causing the spike.</li><li>Right-size, pause, archive, or downgrade the resource if business impact allows.</li><li>Review instance size, scheduling windows, autoscaling rules, and idle runtime.</li><li>Escalate to engineering, operations, and finance for same-day remediation.</li></ol>
+                </div>
+              </div>
+            </section>
+            
+            <section class="resource-card risk-high" id="resources">
+              <div class="resource-topline">
+                <div>
+                  <p class="kicker">storage / customer-media</p>
+                  <h2>media-bucket</h2>
+                </div>
+                <div class="risk-badge badge-high">HIGH</div>
+              </div>
+
+              <div class="resource-metrics">
+                <div><span>Business Impact</span><strong>MEDIUM</strong></div>
+                <div><span>Owner</span><strong>UNASSIGNED</strong></div>
+                <div><span>Current Spend</span><strong>$145.00</strong></div>
+                <div><span>Projected Spend</span><strong>$362.50</strong></div>
+                <div><span>Projected Overrun</span><strong>$282.50</strong></div>
+                <div><span>Utilization</span><strong>8%</strong></div>
+              </div>
+
+              <div class="bar-panel">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Current Spend Vs Budget</span>
+                    <strong>$145.00 / $80.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill current" style="width:100%"></div></div>
+                </div>
+
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Projected Spend Vs Budget</span>
+                    <strong>$362.50 / $80.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill projected" style="width:100%"></div></div>
+                </div>
+              </div>
+
+              <div class="resource-detail">
+                <div>
+                  <h3>Findings</h3>
+                  <ul><li>Current spend exceeds monthly budget</li><li>Projected month-end spend exceeds monthly budget</li><li>Cost spike detected compared to previous month</li><li>Missing resource owner</li><li>Low utilization suggests possible waste</li></ul>
+                </div>
+                <div>
+                  <h3>Action Plan</h3>
+                  <ol><li>Assign a responsible owner for the resource.</li><li>Open a cost review and compare spend against approved budget.</li><li>Create or tighten budget alert thresholds before month end.</li><li>Investigate workload, query, traffic, or retention changes causing the spike.</li><li>Right-size, pause, archive, or downgrade the resource if business impact allows.</li><li>Review lifecycle policies, storage tiering, duplicate files, and stale objects.</li><li>Escalate to engineering, operations, and finance for same-day remediation.</li></ol>
+                </div>
+              </div>
+            </section>
+            
+            <section class="resource-card risk-medium" id="resources">
+              <div class="resource-topline">
+                <div>
+                  <p class="kicker">compute / customer-portal</p>
+                  <h2>web-server-01</h2>
+                </div>
+                <div class="risk-badge badge-medium">MEDIUM</div>
+              </div>
+
+              <div class="resource-metrics">
+                <div><span>Business Impact</span><strong>HIGH</strong></div>
+                <div><span>Owner</span><strong>support-team</strong></div>
+                <div><span>Current Spend</span><strong>$98.00</strong></div>
+                <div><span>Projected Spend</span><strong>$245.00</strong></div>
+                <div><span>Projected Overrun</span><strong>$125.00</strong></div>
+                <div><span>Utilization</span><strong>68%</strong></div>
+              </div>
+
+              <div class="bar-panel">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Current Spend Vs Budget</span>
+                    <strong>$98.00 / $120.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill current" style="width:81.67%"></div></div>
+                </div>
+
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Projected Spend Vs Budget</span>
+                    <strong>$245.00 / $120.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill projected" style="width:100%"></div></div>
+                </div>
+              </div>
+
+              <div class="resource-detail">
+                <div>
+                  <h3>Findings</h3>
+                  <ul><li>Projected month-end spend exceeds monthly budget</li></ul>
+                </div>
+                <div>
+                  <h3>Action Plan</h3>
+                  <ol><li>Create or tighten budget alert thresholds before month end.</li><li>Review instance size, scheduling windows, autoscaling rules, and idle runtime.</li></ol>
+                </div>
+              </div>
+            </section>
+            
+            <section class="resource-card risk-low" id="resources">
+              <div class="resource-topline">
+                <div>
+                  <p class="kicker">monitoring / observability</p>
+                  <h2>logs-platform</h2>
+                </div>
+                <div class="risk-badge badge-low">LOW</div>
+              </div>
+
+              <div class="resource-metrics">
+                <div><span>Business Impact</span><strong>MEDIUM</strong></div>
+                <div><span>Owner</span><strong>operations-team</strong></div>
+                <div><span>Current Spend</span><strong>$55.00</strong></div>
+                <div><span>Projected Spend</span><strong>$137.50</strong></div>
+                <div><span>Projected Overrun</span><strong>$77.50</strong></div>
+                <div><span>Utilization</span><strong>34%</strong></div>
+              </div>
+
+              <div class="bar-panel">
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Current Spend Vs Budget</span>
+                    <strong>$55.00 / $60.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill current" style="width:91.67%"></div></div>
+                </div>
+
+                <div class="bar-row">
+                  <div class="bar-label">
+                    <span>Projected Spend Vs Budget</span>
+                    <strong>$137.50 / $60.00</strong>
+                  </div>
+                  <div class="bar-track"><div class="bar-fill projected" style="width:100%"></div></div>
+                </div>
+              </div>
+
+              <div class="resource-detail">
+                <div>
+                  <h3>Findings</h3>
+                  <ul><li>Projected month-end spend exceeds monthly budget</li></ul>
+                </div>
+                <div>
+                  <h3>Action Plan</h3>
+                  <ol><li>Create or tighten budget alert thresholds before month end.</li></ol>
+                </div>
+              </div>
+            </section>
+            
+
+    <p class="footer-note">Generated by the Cloud FinOps Anomaly Detection And Cost Risk System.</p>
+  </main>
+</body>
+</html>

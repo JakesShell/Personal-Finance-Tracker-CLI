@@ -1,0 +1,15 @@
+FinOps Budget Anomaly Alerts
+====================================
+Immediate Action Required: YES
+Projected Month-End Overrun: $1267.50
+Projected Overrun Percent: 207.79%
+
+orders-db | database | CRITICAL | Projected Overrun: $462.50
+Action: Open a cost review and compare spend against approved budget.
+------------------------------------
+batch-training-node | gpu | HIGH | Projected Overrun: $320.00
+Action: Assign a responsible owner for the resource.
+------------------------------------
+media-bucket | storage | MEDIUM | Projected Overrun: $282.50
+Action: Assign a responsible owner for the resource.
+------------------------------------

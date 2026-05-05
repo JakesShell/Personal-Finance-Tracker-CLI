@@ -1,0 +1,6 @@
+﻿service,resource,business_area,monthly_budget,current_spend,previous_month_spend,owner,criticality,utilization_percent
+compute,web-server-01,customer-portal,120,98,85,support-team,high,68
+database,orders-db,checkout-payments,200,265,180,backend-team,critical,91
+storage,media-bucket,customer-media,80,145,70,,medium,8
+monitoring,logs-platform,observability,60,55,52,operations-team,medium,34
+gpu,batch-training-node,analytics-lab,150,188,40,,high,6

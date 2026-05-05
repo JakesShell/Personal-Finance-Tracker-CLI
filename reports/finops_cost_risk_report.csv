@@ -1,0 +1,6 @@
+service,resource,business_area,owner,blast_radius,monthly_budget,current_spend,projected_month_end_spend,projected_overrun,spike_percent,utilization_percent,risk_score,risk_level
+database,orders-db,checkout-payments,backend-team,CRITICAL,200,265,662.5,462.5,47.22,91,18,HIGH
+gpu,batch-training-node,analytics-lab,UNASSIGNED,HIGH,150,188,470.0,320.0,370.0,6,22,HIGH
+storage,media-bucket,customer-media,UNASSIGNED,MEDIUM,80,145,362.5,282.5,107.14,8,21,HIGH
+compute,web-server-01,customer-portal,support-team,HIGH,120,98,245.0,125.0,15.29,68,7,MEDIUM
+monitoring,logs-platform,observability,operations-team,MEDIUM,60,55,137.5,77.5,5.77,34,6,LOW
